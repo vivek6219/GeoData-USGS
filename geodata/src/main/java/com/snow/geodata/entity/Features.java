@@ -8,10 +8,15 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Features {
 
+    @JsonProperty("id")
+    private String id;
+
     @JsonProperty("type")
     private String type;
+
     @JsonProperty("properties")
     private Properties properties;
+
     @JsonProperty("geometry")
     private Geometry geometry;
 
