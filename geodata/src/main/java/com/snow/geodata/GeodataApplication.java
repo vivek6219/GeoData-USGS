@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
 
 
 @SpringBootApplication
@@ -20,18 +21,21 @@ public class GeodataApplication {
 		SpringApplication.run(GeodataApplication.class, args);
 	}
 
-
 	@Bean
-	public RestTemplate restTemplate(RestTemplateBuilder builder){
-		return builder.build();
+	public WebClient webClient(){
+		return WebClient.create();
 	}
+//	@Bean
+//	public RestTemplate restTemplate(RestTemplateBuilder builder){
+//		return builder.build();
+//	}
 
-	@Bean
-	public CommandLineRunner run(RestTemplate restTemplate){
-		return args -> {
-			EarthQuake earthQuake =  restTemplate.getForObject("https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&endtime" ,EarthQuake.class);
-			log.info(earthQuake.toString());
-		};
-	}
+//	@Bean
+//	public CommandLineRunner run(RestTemplate restTemplate){
+//		return args -> {
+//			EarthQuake earthQuake =  restTemplate.getForObject("https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&endtime" ,EarthQuake.class);
+//			log.info(earthQuake.toString());
+//		};
+//	}
 
 }
