@@ -2,6 +2,7 @@ package com.snow.geodata.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.snow.geodata.entity.EarthQuake;
+import com.snow.geodata.entity.Features;
 import com.snow.geodata.repository.EarthQuakeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -9,9 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Service
 public class EarthQuakeServiceImpl {
@@ -41,26 +40,29 @@ public class EarthQuakeServiceImpl {
     /*
     *Will return all earthquakes of the given magnitude
     * */
-//    public EarthQuake returnEarthQuakeByMagnitude(){
-//        Mono<EarthQuake> response = WebClient.create()
-//                .mutate()
-//                .codecs(configurer -> configurer
-//                        .defaultCodecs()
-//                        .maxInMemorySize(16 * 1024 * 1024))
-//                .build()
-//                .get()
-//                .uri(url)
-//                .accept(MediaType.APPLICATION_JSON)
-//                .retrieve()
-//                .bodyToMono(EarthQuake.class)
-//                .log();
-//
-//        //how do i map a specific city and state to a magnitude?
-//        //when their is no specified city.
-//        //can maybe fetch
-//        Map<>
-//
-//    }
+    public ArrayList<Features> returnEarthQuakeByMagnitude(){
+        Mono<EarthQuake> response = WebClient.create()
+                .mutate()
+                .codecs(configurer -> configurer
+                        .defaultCodecs()
+                        .maxInMemorySize(16 * 1024 * 1024))
+                .build()
+                .get()
+                .uri(url)
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .bodyToMono(EarthQuake.class)
+                .log();
+
+        //how do i map a specific city and state to a magnitude?
+        //when their is no specified city.
+        //can maybe fetch
+
+        //sorted (Binary)? Tree with list of locations as property
+
+        return new ArrayList<>(response.block().getFeatures());
+
+    }
 
 
 
