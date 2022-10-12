@@ -23,7 +23,8 @@ public class EarthQuakeServiceImpl {
                 .mutate()
                 .codecs(configurer -> configurer
                         .defaultCodecs()
-                        .maxInMemorySize(16 * 1024 * 1024)).build()
+                        .maxInMemorySize(16 * 1024 * 1024))
+                .build()
                 .get()
                 .uri(url)
                 .accept(MediaType.APPLICATION_JSON)
@@ -32,6 +33,57 @@ public class EarthQuakeServiceImpl {
                 .log();
 
         EarthQuake earthQuake = response.block();
+
+        return earthQuake;
+    }
+
+
+    /*
+    *Will return all earthquakes of the given magnitude
+    * */
+//    public EarthQuake returnEarthQuakeByMagnitude(){
+//        Mono<EarthQuake> response = WebClient.create()
+//                .mutate()
+//                .codecs(configurer -> configurer
+//                        .defaultCodecs()
+//                        .maxInMemorySize(16 * 1024 * 1024))
+//                .build()
+//                .get()
+//                .uri(url)
+//                .accept(MediaType.APPLICATION_JSON)
+//                .retrieve()
+//                .bodyToMono(EarthQuake.class)
+//                .log();
+//
+//        //how do i map a specific city and state to a magnitude?
+//        //when their is no specified city.
+//        //can maybe fetch
+//        Map<>
+//
+//    }
+
+
+
+    /*
+    * Will get all data based on location. Might think about passing in location name
+    * and then do a search based on that location using EarthQuake.features.place
+    * */
+    public EarthQuake earthQuakesByLocation() {
+        Mono<EarthQuake> response = WebClient.create()
+                .mutate()
+                .codecs(configurer -> configurer
+                        .defaultCodecs()
+                        .maxInMemorySize(16 * 1024 * 1024))
+                .build()
+                .get()
+                .uri(url)
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .bodyToMono(EarthQuake.class)
+                .log();
+
+        EarthQuake earthQuake = response.block();
+
 
         return earthQuake;
     }

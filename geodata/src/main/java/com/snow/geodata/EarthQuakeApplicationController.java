@@ -19,9 +19,13 @@ public class EarthQuakeApplicationController {
     }
 
     @GetMapping("earthquakes")
-  public EarthQuake getEarthQuakeData(){
-      return earthQuakeService.earthQuakeList();
-  }
+    public EarthQuake getEarthQuakeData() {
+        return earthQuakeService.earthQuakeList();
+    }
 
+    @GetMapping("earthquakes/location")
+    public EarthQuake getEarthQuakeByLocationName(){
+        return earthQuakeService.earthQuakesByLocation();
+    }
 
 }
