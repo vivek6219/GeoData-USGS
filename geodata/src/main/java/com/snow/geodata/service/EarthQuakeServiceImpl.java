@@ -38,9 +38,9 @@ public class EarthQuakeServiceImpl {
 
 
     /*
-    *Will return all earthquakes of the given magnitude
-    * */
-    public ArrayList<Features> returnEarthQuakeByMagnitude(){
+     *Will return all earthquakes of the given magnitude
+     * */
+    public List<String> returnEarthQuakeByMagnitude(String magnitude) {
         Mono<EarthQuake> response = WebClient.create()
                 .mutate()
                 .codecs(configurer -> configurer
@@ -60,16 +60,24 @@ public class EarthQuakeServiceImpl {
 
         //sorted (Binary)? Tree with list of locations as property
 
-        return new ArrayList<>(response.block().getFeatures());
-
+        List<Features> featuresList = response.block().getFeatures();
+        List<String> magnitudes = new ArrayList<>();
+        for (Features features : featuresList) {
+            if (features != null && features.getProperties() != null
+                    && features.getProperties().getMag() != null && !features.getProperties().getMag().isEmpty()
+                    && features.getProperties().getPlace() != null && !features.getProperties().getPlace().isEmpty()
+                    && Objects.equals(features.getProperties().getMag(), magnitude)) {
+                magnitudes.add(features.getProperties().getPlace());
+            }
+        }
+        return magnitudes;
     }
 
 
-
     /*
-    * Will get all data based on location. Might think about passing in location name
-    * and then do a search based on that location using EarthQuake.features.place
-    * */
+     * Will get all data based on location. Might think about passing in location name
+     * and then do a search based on that location using EarthQuake.features.place
+     * */
     public EarthQuake earthQuakesByLocation() {
         Mono<EarthQuake> response = WebClient.create()
                 .mutate()
@@ -89,6 +97,5 @@ public class EarthQuakeServiceImpl {
 
         return earthQuake;
     }
-
 
 }
