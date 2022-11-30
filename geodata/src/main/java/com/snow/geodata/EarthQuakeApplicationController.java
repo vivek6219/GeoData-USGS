@@ -33,6 +33,4 @@ public class EarthQuakeApplicationController {
     public List<String> getEarthQuakeByMagnitude(@PathVariable("mag") String magnitude) {
         return earthQuakeService.returnEarthQuakeByMagnitude(magnitude);
     }
-
-
 }
