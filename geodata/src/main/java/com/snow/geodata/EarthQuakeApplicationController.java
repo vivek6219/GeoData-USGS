@@ -1,13 +1,16 @@
 package com.snow.geodata;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.snow.geodata.entity.EarthQuake;
 import com.snow.geodata.entity.Features;
+import com.snow.geodata.entity.Properties;
 import com.snow.geodata.service.EarthQuakeServiceImpl;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -19,6 +22,12 @@ public class EarthQuakeApplicationController {
         this.earthQuakeService = earthQuakeService;
     }
 
+    @RequestMapping("/")
+    public String index(Model model){
+        return "../resources/templates/start_page.html";
+    }
+
+    @CrossOrigin(origins = "http://localhost:8082")
     @GetMapping("earthquakes")
     public EarthQuake getEarthQuakeData() {
         return earthQuakeService.earthQuakeList();

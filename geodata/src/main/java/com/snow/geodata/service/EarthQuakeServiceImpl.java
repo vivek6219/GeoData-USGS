@@ -1,9 +1,13 @@
 package com.snow.geodata.service;
 
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.snow.geodata.entity.EarthQuake;
 import com.snow.geodata.entity.Features;
+import com.snow.geodata.entity.Properties;
 import com.snow.geodata.repository.EarthQuakeRepository;
+import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -18,7 +22,7 @@ public class EarthQuakeServiceImpl {
     String url = "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&endtime";
 
     public EarthQuake earthQuakeList() {
-        Mono<EarthQuake> response = WebClient.create()
+           Mono<EarthQuake> response = WebClient.create()
                 .mutate()
                 .codecs(configurer -> configurer
                         .defaultCodecs()

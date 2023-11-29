@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/GeoData-USGS.iml" filepath="$PROJECT_DIR$/.idea/GeoData-USGS.iml" />
-      <module fileurl="file://$PROJECT_DIR$/geodata/geodata.iml" filepath="$PROJECT_DIR$/geodata/geodata.iml" />
     </modules>
   </component>
 </project>
