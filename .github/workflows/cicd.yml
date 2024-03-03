@@ -7,5 +7,33 @@ on:
 jobs:
   build:
     runs-on: [ubuntu-latest]
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin' # See 'Supported distributions' for available options
+          java-version: '17'
+      - name: Build Project
+        run: mvn clean install -DskipTests
+      - name: Login to dockerhub
+        run: docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_USERNAME}}
+      - name: Build Docker Image
+        run: docker build -t earthquakes/GeoData-USGS .
+      - name: Publish image to dockerhub
+        run: docker push earthquakes/GeoData-USGS:latest
 
 
+  deploy:
+    needs: build
+    runs-on: [aws-ec2]
+    steps:
+      - name: Pull image from docker hub
+        run: docker pull earthquakes/GeoData-USGS:latest
+
+      - name: Delete old container
+        run: docker rm -f earthquake-container
+
+      - name: Run docker container
+        run: docker run -d -p 8082:8082 --name earthquake-container earthquakes/GeoData-USGS
