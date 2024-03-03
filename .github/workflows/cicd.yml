@@ -26,20 +26,20 @@ jobs:
         run: docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_PASSWORD}}
 
       - name: Build Docker Image
-        run: docker build -t earthquakes/GeoData-USGS .
+        run: docker build -t earthquakes/geoData-USGS .
 
       - name: Publish image to dockerhub
-        run: docker push earthquakes/GeoData-USGS:latest
+        run: docker push earthquakes/geoData-USGS:latest
 
   deploy:
     needs: build
     runs-on: ubuntu-latest
     steps:
       - name: Pull image from docker hub
-        run: docker pull earthquakes/GeoData-USGS:latest
+        run: docker pull earthquakes/geoData-USGS:latest
 
       - name: Delete old container
         run: docker rm -f earthquake-container
 
       - name: Run docker container
-        run: docker run -d -p 8082:8082 --name earthquake-container earthquakes/GeoData-USGS
+        run: docker run -d -p 8082:8082 --name earthquake-container earthquakes/geoData-USGS
