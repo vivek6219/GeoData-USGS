@@ -23,9 +23,9 @@ public class EarthQuakeApplicationController {
     }
 
     @RequestMapping("/")
-    public String index(Model model){
+    public String index(Model model) {
         return "../resources/templates/start_page.html";
-    }
+    }  
 
     @CrossOrigin(origins = "http://localhost:8082")
     @GetMapping("earthquakes")
@@ -41,5 +41,10 @@ public class EarthQuakeApplicationController {
     @GetMapping("earthquakes/magnitude/{mag}")
     public List<String> getEarthQuakeByMagnitude(@PathVariable("mag") String magnitude) {
         return earthQuakeService.returnEarthQuakeByMagnitude(magnitude);
+    }
+
+    @GetMapping("earthquakes/yesterday")
+    public EarthQuake getEarthquakesFromYesterday(){
+        return earthQuakeService.earthquakeFromYesterday();
     }
 }
