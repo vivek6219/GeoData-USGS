@@ -18,7 +18,7 @@ jobs:
           java-version: '17'
 
       - name: Build Project
-        run:
+        run: |
           cd geodata
           mvn clean install -DskipTests
 
