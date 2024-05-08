@@ -5,7 +5,6 @@ import com.snow.geodata.entity.EarthQuake;
 import com.snow.geodata.entity.Features;
 import com.snow.geodata.entity.Properties;
 import com.snow.geodata.service.EarthQuakeServiceImpl;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,7 +29,6 @@ public class EarthQuakeApplicationController {
 
     @CrossOrigin(origins = "http://localhost:8082")
     @GetMapping("earthquakes")
-    @Cacheable("earthquakeList")
     public EarthQuake getEarthQuakeData() {
         return earthQuakeService.earthQuakeList();
     }
@@ -43,5 +41,10 @@ public class EarthQuakeApplicationController {
     @GetMapping("earthquakes/magnitude/{mag}")
     public List<String> getEarthQuakeByMagnitude(@PathVariable("mag") String magnitude) {
         return earthQuakeService.returnEarthQuakeByMagnitude(magnitude);
+    }
+
+    @GetMapping("earthquakes/yesterday")
+    public EarthQuake getEarthquakesFromYesterday(){
+        return earthQuakeService.earthquakeFromYesterday();
     }
 }

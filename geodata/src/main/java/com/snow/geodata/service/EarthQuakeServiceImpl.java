@@ -1,25 +1,21 @@
 package com.snow.geodata.service;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.snow.geodata.entity.EarthQuake;
 import com.snow.geodata.entity.Features;
-import com.snow.geodata.entity.Properties;
-import com.snow.geodata.repository.EarthQuakeRepository;
-import net.minidev.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 @Service
 public class EarthQuakeServiceImpl {
 
     String url = "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&endtime";
+    String urlForYesterday = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson";
 
     public EarthQuake earthQuakeList() {
            Mono<EarthQuake> response = WebClient.create()
@@ -102,4 +98,20 @@ public class EarthQuakeServiceImpl {
         return earthQuake;
     }
 
+    public EarthQuake earthquakeFromYesterday(){
+        Mono<EarthQuake> response = WebClient.create()
+                .mutate()
+                .codecs(configurer -> configurer
+                        .defaultCodecs()
+                        .maxInMemorySize(16 * 1024 * 1024))
+                .build()
+                .get()
+                .uri(urlForYesterday)
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .bodyToMono(EarthQuake.class)
+                .log();
+
+        return response.block();
+    }
 }

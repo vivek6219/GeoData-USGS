@@ -27,17 +27,5 @@ public class GeodataApplication {
 	public WebClient webClient(){
 		return WebClient.create();
 	}
-//	@Bean
-//	public RestTemplate restTemplate(RestTemplateBuilder builder){
-//		return builder.build();
-//	}
-
-//	@Bean
-//	public CommandLineRunner run(RestTemplate restTemplate){
-//		return args -> {
-//			EarthQuake earthQuake =  restTemplate.getForObject("https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&endtime" ,EarthQuake.class);
-//			log.info(earthQuake.toString());
-//		};
-//	}
 
 }
