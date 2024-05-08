@@ -5,6 +5,7 @@ import com.snow.geodata.entity.EarthQuake;
 import com.snow.geodata.entity.Features;
 import com.snow.geodata.entity.Properties;
 import com.snow.geodata.service.EarthQuakeServiceImpl;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,13 +23,14 @@ public class EarthQuakeApplicationController {
         this.earthQuakeService = earthQuakeService;
     }
 
-    @RequestMapping("/")
-    public String index(Model model){
-        return "../resources/templates/start_page.html";
-    }
+//    @RequestMapping("/")
+//    public String index(Model model){
+//        return "../resources/templates/start_page.html";
+//    }
 
     @CrossOrigin(origins = "http://localhost:8082")
     @GetMapping("earthquakes")
+    @Cacheable("earthquakeList")
     public EarthQuake getEarthQuakeData() {
         return earthQuakeService.earthQuakeList();
     }
